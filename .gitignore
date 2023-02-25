@@ -1,0 +1,8 @@
+test.c
+*.o
+trial
+*.a
+*.fdf
+test_maps
+.DS_Store
+MLX_42
