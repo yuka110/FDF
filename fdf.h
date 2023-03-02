@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/02/25 18:00:25 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/02 11:44:15 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include "./Libft/libft.h"
 
 char	**open_parse(char **argv);
+char	*input_arr(int fd);
+char	*split_atoi(char *line);
 void	ft_free(char **s);
 
 #endif

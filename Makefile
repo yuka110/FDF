@@ -6,7 +6,7 @@
 #    By: yitoh <yitoh@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/19 10:52:21 by yitoh         #+#    #+#                  #
-#    Updated: 2023/02/25 18:33:00 by yitoh         ########   odam.nl          #
+#    Updated: 2023/03/02 10:41:19 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,11 +29,11 @@ $(NAME): $(OBJ) $(MLX) $(LIBFT)
 	@$(CC) -c $(CFLAG) $< -o $@
 
 $(MLX):
-	$(MAKE) -C $(MLX_DIR)
+	@$(MAKE) -C $(MLX_DIR)
 	@cp $(MLX) $(NAME)
 
 $(LIBFT):
-	$(MAKE) -C $(LIBFT_DIR)
+	@$(MAKE) -C $(LIBFT_DIR)
 	@cp $(LIBFT) $(NAME)
 
 clean:
