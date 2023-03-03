@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/02 11:44:15 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/03 17:40:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,11 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include "./Libft/libft.h"
+
+typedef struct fdf_list
+{
+	int			**num;
+}					t_fdf;
 
 char	**open_parse(char **argv);
 char	*input_arr(int fd);

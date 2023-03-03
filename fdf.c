@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/02 11:50:50 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/03 18:13:06 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@ int	main(int argc, char **argv)
 	ft_free(map);
 
 }
-
+//once it's done, possibly remove this function
 char	**open_parse(char **argv)
 {
-	char	**map;
-	char	*arr;
-	int		i;
-	int		fd;
+	int	**map;
+	int	i;
+	int	fd;
 
 	i = 0;
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
 		exit(0);
-	arr = input_arr(fd);
+	map = input_arr(fd);
 	map = ft_split(arr, '\n');
 	if (!map)
 		return (ft_free(map), NULL);
@@ -54,7 +53,7 @@ char	**open_parse(char **argv)
 
 char	*input_arr(int fd)
 {
-	char	*arr;
+	int		**arr;
 	char	*line;
 
 	arr = NULL;
@@ -67,7 +66,7 @@ char	*input_arr(int fd)
 		line = split_atoi(line);
 		if (!line)
 			exit(0);
-		arr = gnl_strjoin(arr, line);
+		arr = double_strjoin(arr, line);
 		if (!arr)
 			exit(0);
 		free(line);
@@ -103,6 +102,27 @@ char	*split_atoi(char *line)
 	return (free(line), ft_free(tmp), str);
 }
 
+char	**double_strjoin(char **s1, char *s2)
+{
+	int			**arr;
+	int			s2_len;
+	static int	i;
+
+	s2_len = ft_strlen(s2);
+	if (!s1)
+		arr[0] = gnl_substr(s2, 0, s2_len);
+	else
+	{
+		arr[i] = ft_calloc(s2_len + 1, sizeof(int));
+		if (!s1)
+			return (ft_free(s1), NULL);
+		gnl_memmove(s1[i], s2, s2_len);
+	}
+	i++;
+	return (ft_free(s1), s1);
+}
+
+
 void	ft_free(char **s)
 {
 	int	i;
@@ -116,19 +136,8 @@ void	ft_free(char **s)
 	free(s);
 }
 
-
-// 0 0 0 0 0
-// 1 1 1 1 1
-// 2 2 2 2 2
-// while
-// line= 0 0 0 0 0\n
-// ft_split
-// 0
-// 0
-// 0
-// 0
-// 0
-// atoi
-// arr = 0 0 0 0 0\n
-
-// map 
+// 1. open file, get_next_line
+// 2. split the line by space
+// 3. put them into a struct map.num[i][j] = number
+// 4. increament i and repeat the process
+// POINT: research difference between struct and linked list
