@@ -1,0 +1,135 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parsing_fdf.c                                      :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
+/*   Updated: 2023/03/06 15:46:52 by yitoh         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "fdf.h"
+
+t_fdf	*open_parse(char **argv)
+{
+	t_fdf	*map;
+	char	**tmp;
+	int		**map_tmp;
+	int		fd;
+
+	fd = open(argv[1], O_RDONLY);
+	if (fd < 0)
+		exit(0);
+	map = init_null();
+	if (!map)
+		exit(0);
+	tmp = read_split(fd, map);
+	if (!tmp)
+		exit(0);
+	map_tmp = ft_2dcalloc(map, tmp);
+	if (!map_tmp)
+		exit(0);
+	map = input_arr(map, tmp, map_tmp);
+	close(fd);
+	return (map);
+}
+
+t_fdf	*init_null(void)
+{
+	t_fdf	*map;
+
+	map = malloc(sizeof(t_fdf));
+	if (!map)
+		exit(0);
+	map->map = NULL;
+	map->x = 0;
+	map->y = 0;
+	map->z = 0;
+	return (map);
+}
+
+char	**read_split(int fd, t_fdf *map)
+{
+	char	*line;
+	char	*tmp;
+	char	**arr_2d;
+	int		i;
+
+	line = NULL;
+	tmp = NULL;
+	i = 0;
+	while (1)
+	{
+		line = get_next_line(fd);
+		if (!line)
+			break ;
+		tmp = gnl_strjoin(tmp, line);
+		if (!tmp)
+			exit(0);
+		++i;
+		free(line);
+	}
+	map->y = i;
+	arr_2d = ft_split(tmp, '\n');
+	if (!arr_2d)
+		exit(0);
+	return (free(tmp), arr_2d);
+}
+
+int	**ft_2dcalloc(t_fdf *map, char **tmp)
+{
+	int	i;
+	int	j;
+	int	**arr;
+
+	i = 0;
+	j = 0;
+	while (tmp[0][i])
+	{
+		if (tmp[0][i] == ' ')
+			++j;
+		++i;
+	}
+	map->x = j;
+	arr = ft_calloc(map->x, sizeof(int *));
+	if (!arr)
+		exit(0);
+    printf("x = %d y = %d\n", map->x, map->y);
+	i = 0;
+	while (i < map->y)
+	{
+		arr[i] = ft_calloc(map->y, sizeof(int));
+		if (!arr[i])
+			exit(0);
+		++i;
+	}
+	return (arr);
+}
+
+t_fdf	*input_arr(t_fdf *map, char **tmp, int **map_tmp)
+{
+	char	**one_line;
+	int		i;
+	int		j;
+
+	i = 0;
+	while (tmp[i])
+	{
+		one_line = ft_split(tmp[i], ' ');
+		if (!one_line)
+			exit(0);
+		j = 0;
+		while (one_line[j])
+		{
+			map_tmp[i][j] = ft_atoi(one_line[j]);
+			j++;
+		}
+		ft_free(one_line);
+		++i;
+	}
+	map->map = map_tmp;
+	return (ft_free(tmp), map);
+}
+
