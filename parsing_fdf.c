@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/06 15:46:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/09 15:32:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ t_fdf	*init_null(void)
 	map->map = NULL;
 	map->x = 0;
 	map->y = 0;
-	map->z = 0;
 	return (map);
 }
 
