@@ -6,15 +6,15 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/09 15:32:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/11 11:18:44 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-t_fdf	*open_parse(char **argv)
+t_map	*open_parse(char **argv)
 {
-	t_fdf	*map;
+	t_map	*map;
 	char	**tmp;
 	int		**map_tmp;
 	int		fd;
@@ -36,11 +36,11 @@ t_fdf	*open_parse(char **argv)
 	return (map);
 }
 
-t_fdf	*init_null(void)
+t_map	*init_null(void)
 {
-	t_fdf	*map;
+	t_map	*map;
 
-	map = malloc(sizeof(t_fdf));
+	map = malloc(sizeof(t_map));
 	if (!map)
 		exit(0);
 	map->map = NULL;
@@ -49,7 +49,7 @@ t_fdf	*init_null(void)
 	return (map);
 }
 
-char	**read_split(int fd, t_fdf *map)
+char	**read_split(int fd, t_map *map)
 {
 	char	*line;
 	char	*tmp;
@@ -77,7 +77,7 @@ char	**read_split(int fd, t_fdf *map)
 	return (free(tmp), arr_2d);
 }
 
-int	**ft_2dcalloc(t_fdf *map, char **tmp)
+int	**ft_2dcalloc(t_map *map, char **tmp)
 {
 	int	i;
 	int	j;
@@ -95,7 +95,6 @@ int	**ft_2dcalloc(t_fdf *map, char **tmp)
 	arr = ft_calloc(map->x, sizeof(int *));
 	if (!arr)
 		exit(0);
-    printf("x = %d y = %d\n", map->x, map->y);
 	i = 0;
 	while (i < map->y)
 	{
@@ -107,7 +106,7 @@ int	**ft_2dcalloc(t_fdf *map, char **tmp)
 	return (arr);
 }
 
-t_fdf	*input_arr(t_fdf *map, char **tmp, int **map_tmp)
+t_map	*input_arr(t_map *map, char **tmp, int **map_tmp)
 {
 	char	**one_line;
 	int		i;
