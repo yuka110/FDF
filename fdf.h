@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/13 23:03:47 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/14 16:07:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ char	**read_split(int fd, t_map *map);
 int	**ft_2dcalloc(t_map *map, char **tmp);
 t_map	*input_arr(t_map *map, char **tmp, int **map_tmp);
 
+//draw.c
+void	brassenham_line(int x0, int y0, int x1, int y1, mlx_image_t *img);
+
 //fdf.c
-void	straight_line(t_map *map, mlx_t	*win);
+mlx_image_t	*set_background(mlx_t *win);
 void	print_map(t_map *map);
 void	ft_free(char **s);
-void	brassenham_line(int x0, int y0, int x1, int y1, mlx_t *win);
 //static void ft_hook(void* param);
+
 
 #endif
