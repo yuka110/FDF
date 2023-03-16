@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/14 16:39:04 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/16 15:58:20 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int	main(int argc, char **argv)
 	mlx_t	*win;
 	mlx_image_t	*img;
 
-
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
@@ -29,8 +28,11 @@ int	main(int argc, char **argv)
 	if (!win)
 		exit(EXIT_FAILURE);
 	img = set_background(win);
-	brassenham_line(0, 0, 10, 10, img);
-	brassenham_line(10, 10, 50, 0, img);
+	draw_line(img, map);
+	
+	// brassenham_line(0, 0, 100, 100, img);
+	// brassenham_line(100, 100, 500, 0, img);
+	// brassenham_line(100, 100, 500, 100, img);
 	mlx_loop(win);
 	mlx_terminate(win);
 	exit(0);
