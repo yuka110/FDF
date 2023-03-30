@@ -6,14 +6,14 @@
 #    By: yitoh <yitoh@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/19 10:52:21 by yitoh         #+#    #+#                  #
-#    Updated: 2023/03/14 16:01:41 by yitoh         ########   odam.nl          #
+#    Updated: 2023/03/27 20:55:25 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 SRC = fdf.c parsing_fdf.c draw.c
 OBJ = $(SRC:.c=.o)
-CFLAG = -Wall -Wextra -Werror  #-g -fsanitize=address
+CFLAG = -Wall -Wextra -Werror -g -fsanitize=address
 NAME = fdf
 MLX_DIR = ./MLX42/build
 MLX = $(MLX_DIR)/libmlx42.a

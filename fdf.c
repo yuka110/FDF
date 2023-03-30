@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/16 15:58:20 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/29 09:50:45 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,13 @@ int	main(int argc, char **argv)
 	map = open_parse(argv);
 	print_map(map);
 
-	mlx_set_setting(MLX_MAXIMIZED, true);
-	win = mlx_init(1000, 700, "fdf", true);
+	// mlx_set_setting(, true);
+	win = mlx_init(1080, 720, "fdf", true);
 	if (!win)
 		exit(EXIT_FAILURE);
 	img = set_background(win);
 	draw_line(img, map);
-	
-	// brassenham_line(0, 0, 100, 100, img);
-	// brassenham_line(100, 100, 500, 0, img);
-	// brassenham_line(100, 100, 500, 100, img);
+
 	mlx_loop(win);
 	mlx_terminate(win);
 	exit(0);
@@ -83,7 +80,7 @@ void	ft_free(char **s)
 	int	i;
 
 	i = 0;
-	while (s[i])
+	while (s && s[i])
 	{
 		free(s[i]);
 		++i;

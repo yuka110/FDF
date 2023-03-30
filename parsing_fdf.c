@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/11 11:18:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/27 21:37:06 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,23 @@ int	**ft_2dcalloc(t_map *map, char **tmp)
 	j = 0;
 	while (tmp[0][i])
 	{
-		if (tmp[0][i] == ' ')
+		if (tmp[0][i] != ' ')
 			++j;
 		++i;
 	}
 	map->x = j;
-	arr = ft_calloc(map->x, sizeof(int *));
+	arr = ft_calloc(map->y + 1, sizeof(int *));
 	if (!arr)
 		exit(0);
 	i = 0;
 	while (i < map->y)
 	{
-		arr[i] = ft_calloc(map->y, sizeof(int));
+		arr[i] = ft_calloc(map->x + 1, sizeof(int));
 		if (!arr[i])
 			exit(0);
 		++i;
 	}
+	printf("map.x = %d, map.y = %d\n", map->x, map->y);
 	return (arr);
 }
 
@@ -119,7 +120,7 @@ t_map	*input_arr(t_map *map, char **tmp, int **map_tmp)
 		if (!one_line)
 			exit(0);
 		j = 0;
-		while (one_line[j])
+		while (j < map->x)
 		{
 			map_tmp[i][j] = ft_atoi(one_line[j]);
 			j++;

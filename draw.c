@@ -6,12 +6,25 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/16 16:01:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/30 16:13:08 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+t_point	new_point(int x, int y, t_map *map, int angle)
+{
+	t_point	p;
+	int		offset;
+	int		zoom;
+
+	offset = 200;
+	zoom = 3;
+	p.x = zoom * (x * cos(angle) - y * sin(angle)) + 200;
+	p.y = zoom * (x * sin(angle) + y * cos(angle)) + 200;
+	p.z = map->y - map->y * angle * zoom; //need to adjust
+	return (p);
+}
 
 void	draw_line(mlx_image_t *img, t_map *map)
 {
@@ -22,16 +35,94 @@ void	draw_line(mlx_image_t *img, t_map *map)
 	while (i < map->y)
 	{
 		j = 0;
-		while (j < map->x)
+		while (j < map->x - 1)
 		{
-			brassenham_line(i, map->map[i][j], i, map->map[i][j+1], img);
+			printf("i: %d, j: %d\n", 2 *(i + j), j - i);
+			plot_line(new_point(-2 *(i + j), -(j - i), map, 0), new_point(-2 *(i + j + 1), -(j - i + 1), map, 0), img);
 			j++;
 		}
 		i++;
 	}
+	// not working isometric y direction  horizontal; (0, 0)(2, 1)(4,2)(6,3), vertical; (0, 0)(-1, 2)(-2, 4)
+	j = 0;
+	while (j < map->x)
+	{
+		i = 0;
+		while (i < map->y - 1)
+		{
+			plot_line(new_point(2* (j - i), (i + j), map, 0), new_point(2*(j - i - 1), (i + j + 1), map, 0), img);
+			i++;
+		}
+		j++;
+	}
+	// j = 0;
+	// while (j < map->x)
+	// {
+	// 	i = 0;
+	// 	while (i < map->y - 1)
+	// 	{
+	// 		plot_line(new_point(j, i, map, 0), new_point(j , i + 1, map, 0), img);
+	// 		i++;
+	// 	}
+	// 	j++;
+	// }
+
 }
 
-void	brassenham_line(int x0, int y0, int x1, int y1, mlx_image_t *img)
+void	plot_line(t_point fst, t_point sec, mlx_image_t *img)
+{
+	//2,3,6,7 octant
+	if (abs(sec.y - fst.y) < abs(sec.x - fst.x))
+	{
+		if (fst.x < sec.x)
+			low_line(fst, sec, img);
+		else
+			low_line(sec, fst, img);
+	}
+	else
+	{
+		if (fst.y < sec.y)
+			high_line(fst, sec, img);
+		else
+			high_line(sec, fst, img);
+	}
+}
+
+void	high_line(t_point fst, t_point sec, mlx_image_t *img)
+{
+	int	dx;
+	int	dy;
+	int fraction;
+	int i;
+	int j;
+	int	xstep;
+
+	i = fst.x;
+	j = fst.y;
+	dx = (sec.x - fst.x);
+	dy = (sec.y - fst.y);
+	xstep = 1;
+	if (dx < 0)
+	{
+		xstep = -1;
+		dx = -dx;
+	}
+	fraction = 2 * dx - dy;
+	mlx_put_pixel(img, i, j, 0xFF0000FF);
+	while (j <= sec.y)
+	{
+		if (fraction >= 0)
+		{
+			i += xstep;
+			fraction -= 2 * dy;
+		}
+		j++;
+		fraction += 2 * dx;
+		mlx_put_pixel(img, i, j, 0xFF0000FF);
+	}
+}
+
+void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 {
 	int	dx;
 	int	dy;
@@ -40,43 +131,48 @@ void	brassenham_line(int x0, int y0, int x1, int y1, mlx_image_t *img)
 	int j;
 	int	ystep;
 
-	i = 0;
-	j = 0;
-	// zoom = 3;
+	i = fst.x;
+	j = fst.y;
+	dx = (sec.x - fst.x);
+	dy = (sec.y - fst.y);
 	ystep = 1;
-	printf("start(%d, %d) end(%d, %d)\n", x0, y0, x1, y1);
-	//swap coordinates when slope > 1
-	if ((y1 - y0) > (x1 - x0))
-		swap_cod(&x0, &y0, &x1, &y1);
-	// decrement when the line is right-side-up
-	if (y0 > y1 && x0 < x1)
-		ystep = -1;
-	dx = abs(x1 - x0);
-	dy = abs(y1 - y0);
-	fraction = 2 * dy - dx;
-	printf("dx:%d, dy:%d, initial:%d\n", dx, dy, fraction);
-	while (i + x0 < x1)
+	if (dy < 0)
 	{
-		if (fraction >= dx)
+		ystep = -1;
+		dy = -dy;
+	}
+	fraction = 2 * dy - dx;
+	mlx_put_pixel(img, i, j, 0xFF0000FF);
+	while (i <= sec.x)
+	{
+		if (fraction > 0)
 		{
-			mlx_put_pixel(img, i + x0, j + y0, 0xFF0000FF);
 			j += ystep;
 			fraction -= 2 * dx;
 		}
 		i++;
 		fraction += 2 * dy;
-		mlx_put_pixel(img, i + x0, j + y0, 0xFF0000FF);
+		mlx_put_pixel(img, i, j, 0xFF0000FF);
 	}
+
 }
 
-void	swap_cod(int *a, int *b, int *a1, int *b1)
-{
-	int	swap;
+// void	bresenham_test(mlx_image_t *img, t_map *map)
+// {
+// 	plot_line(new_point(0, 0, map, 30), new_point(200, 0, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(-200, 0, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(0, 200, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(0, -200, map, 30), img);
+	
+// 	plot_line(new_point(0, 0, map, 30), new_point(100, 50, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(50, 100, map, 30), img);
 
-	swap = *a;
-	*a = *b;
-	*b = swap;
-	swap = *a1;
-	*a1 = *b1;
-	*b1 = swap;
-}
+// 	plot_line(new_point(0, 0, map, 30), new_point(200, -50, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(50, -200, map, 30), img);
+	
+// 	plot_line(new_point(0, 0, map, 30), new_point(-200, -50, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(-50, -200, map, 30), img);
+	
+// 	plot_line(new_point(0, 0, map, 30), new_point(-100, 50, map, 30), img);
+// 	plot_line(new_point(0, 0, map, 30), new_point(-50, 100, map, 30), img);
+// }
