@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/30 16:13:08 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/03/31 10:04:38 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_point	new_point(int x, int y, t_map *map, int angle)
 
 	offset = 200;
 	zoom = 3;
-	p.x = zoom * (x * cos(angle) - y * sin(angle)) + 200;
+	p.x = zoom * (x * cos(angle) - y * sin(angle)) + 400;
 	p.y = zoom * (x * sin(angle) + y * cos(angle)) + 200;
 	p.z = map->y - map->y * angle * zoom; //need to adjust
 	return (p);
@@ -32,18 +32,18 @@ void	draw_line(mlx_image_t *img, t_map *map)
 	int j;
 
 	i = 0;
-	while (i < map->y)
+	printf("test\n");
+	while (i > -(map->y))
 	{
 		j = 0;
 		while (j < map->x - 1)
 		{
 			printf("i: %d, j: %d\n", 2 *(i + j), j - i);
-			plot_line(new_point(-2 *(i + j), -(j - i), map, 0), new_point(-2 *(i + j + 1), -(j - i + 1), map, 0), img);
+			plot_line(new_point(2 *(i + j), (j - i), map, 0), new_point(2 *(i + j + 1), (j - i + 1), map, 0), img);
 			j++;
 		}
-		i++;
+		i--;
 	}
-	// not working isometric y direction  horizontal; (0, 0)(2, 1)(4,2)(6,3), vertical; (0, 0)(-1, 2)(-2, 4)
 	j = 0;
 	while (j < map->x)
 	{
@@ -55,18 +55,6 @@ void	draw_line(mlx_image_t *img, t_map *map)
 		}
 		j++;
 	}
-	// j = 0;
-	// while (j < map->x)
-	// {
-	// 	i = 0;
-	// 	while (i < map->y - 1)
-	// 	{
-	// 		plot_line(new_point(j, i, map, 0), new_point(j , i + 1, map, 0), img);
-	// 		i++;
-	// 	}
-	// 	j++;
-	// }
-
 }
 
 void	plot_line(t_point fst, t_point sec, mlx_image_t *img)
@@ -163,16 +151,12 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 // 	plot_line(new_point(0, 0, map, 30), new_point(-200, 0, map, 30), img);
 // 	plot_line(new_point(0, 0, map, 30), new_point(0, 200, map, 30), img);
 // 	plot_line(new_point(0, 0, map, 30), new_point(0, -200, map, 30), img);
-	
 // 	plot_line(new_point(0, 0, map, 30), new_point(100, 50, map, 30), img);
 // 	plot_line(new_point(0, 0, map, 30), new_point(50, 100, map, 30), img);
-
 // 	plot_line(new_point(0, 0, map, 30), new_point(200, -50, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(50, -200, map, 30), img);
-	
+// 	plot_line(new_point(0, 0, map, 30), new_point(50, -200, map, 30), img);	
 // 	plot_line(new_point(0, 0, map, 30), new_point(-200, -50, map, 30), img);
 // 	plot_line(new_point(0, 0, map, 30), new_point(-50, -200, map, 30), img);
-	
 // 	plot_line(new_point(0, 0, map, 30), new_point(-100, 50, map, 30), img);
 // 	plot_line(new_point(0, 0, map, 30), new_point(-50, 100, map, 30), img);
 // }
