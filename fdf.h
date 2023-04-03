@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/29 18:33:22 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/03 14:55:57 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,39 @@
 # include "./Libft/libft.h"
 # include "./MLX42/include/MLX42/MLX42.h"
 
-typedef struct s_map
-{
-	int			**map;
-	int			x;
-	int			y;
-}					t_map;
-
 typedef struct s_point
 {
 	int		x;
 	int		y;
-	int		z;
 }					t_point;
+
+typedef struct s_map
+{
+	int			**map;
+	t_point		**cod;
+	int			x;
+	int			y;
+	int			iso;
+}					t_map;
 
 //persing_fdf.c
 t_map	*open_parse(char **argv);
 t_map	*init_null(void);
 char	**read_split(int fd, t_map *map);
-int	**ft_2dcalloc(t_map *map, char **tmp);
+int		**ft_2dcalloc(t_map *map, char **tmp);
 t_map	*input_arr(t_map *map, char **tmp, int **map_tmp);
 
 //draw.c
-t_point	new_point(int x, int y, t_map *map, int angle);
 void	draw_line(mlx_image_t *img, t_map *map);
 void	plot_line(t_point fst, t_point sec, mlx_image_t *img);
 void	high_line(t_point fst, t_point sec, mlx_image_t *img);
 void	low_line(t_point fst, t_point sec, mlx_image_t *img);
-void	brassenham_line(t_point fst, t_point sec, mlx_image_t *img);
-void	swap_cod(int *a, int *b, int *a1, int *b1);
+//void	bresenham_test(mlx_image_t *img, t_map *map);
+
+//find_points.c
+t_point	**cod_2dcalloc(t_map *map);
+t_point	calculate_cod(int x, int y, t_map *map, int angle);
+t_point	**find_cod(t_map *map);
 
 //fdf.c
 mlx_image_t	*set_background(mlx_t *win);

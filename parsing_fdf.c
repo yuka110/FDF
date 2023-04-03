@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/31 10:17:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/03 14:56:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ t_map	*init_null(void)
 	map = malloc(sizeof(t_map));
 	if (!map)
 		exit(0);
+	map->cod = NULL;
 	map->map = NULL;
 	map->x = 0;
 	map->y = 0;
+	map->iso = 1;
 	return (map);
 }
 

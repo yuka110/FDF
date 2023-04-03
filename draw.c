@@ -6,43 +6,32 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/03/31 10:04:38 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/03 15:42:57 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-t_point	new_point(int x, int y, t_map *map, int angle)
-{
-	t_point	p;
-	int		offset;
-	int		zoom;
-
-	offset = 200;
-	zoom = 3;
-	p.x = zoom * (x * cos(angle) - y * sin(angle)) + 400;
-	p.y = zoom * (x * sin(angle) + y * cos(angle)) + 200;
-	p.z = map->y - map->y * angle * zoom; //need to adjust
-	return (p);
-}
 
 void	draw_line(mlx_image_t *img, t_map *map)
 {
 	int i;
 	int j;
 
+	map->cod = find_cod(map);
+	if (!map->cod)
+		exit (0);
+	//drawing (horizontal and vertical)
 	i = 0;
-	printf("test\n");
 	while (i > -(map->y))
 	{
 		j = 0;
 		while (j < map->x - 1)
 		{
-			printf("i: %d, j: %d\n", 2 *(i + j), j - i);
-			plot_line(new_point(2 *(i + j), (j - i), map, 0), new_point(2 *(i + j + 1), (j - i + 1), map, 0), img);
+			plot_line(map->cod[-i][j], map->cod[-i][j + 1], img);
 			j++;
 		}
 		i--;
+		//	plot_line(new_point(2 *(i + j), (j - i), map, 0), new_point(2 *(i + j + 1), (j - i + 1), map, 0), img);
 	}
 	j = 0;
 	while (j < map->x)
@@ -50,9 +39,10 @@ void	draw_line(mlx_image_t *img, t_map *map)
 		i = 0;
 		while (i < map->y - 1)
 		{
-			plot_line(new_point(2* (j - i), (i + j), map, 0), new_point(2*(j - i - 1), (i + j + 1), map, 0), img);
+			plot_line(map->cod[i][j], map->cod[i + 1][j], img);
 			i++;
 		}
+			//plot_line(new_point(2* (j - i), (i + j), map, 0), new_point(2*(j - i - 1), (i + j + 1), map, 0), img);
 		j++;
 	}
 }
@@ -144,6 +134,11 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 	}
 
 }
+
+
+//if new points are beyond the screen size, do not put pixel
+
+
 
 // void	bresenham_test(mlx_image_t *img, t_map *map)
 // {
