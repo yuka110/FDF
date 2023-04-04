@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/03 15:42:36 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/04 19:21:49 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,22 @@ t_point	**cod_2dcalloc(t_map *map)
 	return (arr);
 }
 
-t_point	calculate_cod(int x, int y, t_map *map, int angle)
+t_point	calculate_cod(int x, int y, t_map *map, float angle)
 {
-	int		offset;
-	int		zoom;
+	int		ori;
 	t_point	p;
 
-
-	offset = 200;
-	zoom = 8;
+	ori = 200;
 	if (map->iso == 1)
 	{
-		angle = 45;
-		p.x = 2 * zoom * (x * cos(angle) - y * sin(angle)) + 400;
-		p.y = zoom * (x * sin(angle) + y * cos(angle)) + 200 + (-5 * map->map[y][x]);
+		angle = 0.523599;
+		p.x = map->zoom * 2 * (x * cos(angle) - y * sin(angle)) + ori;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + ori + (-(map->zoom) * map->map[y][x]);
 	}
 	else
 	{
-		p.x = zoom * (x * cos(angle) - y * sin(angle)) + 400;
-		p.y = zoom * (x * sin(angle) + y * cos(angle)) + 200;
+		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + ori;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + ori;
 	}
 	return (p);
 }

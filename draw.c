@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/03 15:42:57 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/04 19:06:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	draw_line(mlx_image_t *img, t_map *map)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	map->cod = find_cod(map);
 	if (!map->cod)
@@ -31,7 +31,6 @@ void	draw_line(mlx_image_t *img, t_map *map)
 			j++;
 		}
 		i--;
-		//	plot_line(new_point(2 *(i + j), (j - i), map, 0), new_point(2 *(i + j + 1), (j - i + 1), map, 0), img);
 	}
 	j = 0;
 	while (j < map->x)
@@ -42,7 +41,6 @@ void	draw_line(mlx_image_t *img, t_map *map)
 			plot_line(map->cod[i][j], map->cod[i + 1][j], img);
 			i++;
 		}
-			//plot_line(new_point(2* (j - i), (i + j), map, 0), new_point(2*(j - i - 1), (i + j + 1), map, 0), img);
 		j++;
 	}
 }
@@ -132,12 +130,9 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 		fraction += 2 * dy;
 		mlx_put_pixel(img, i, j, 0xFF0000FF);
 	}
-
 }
 
-
 //if new points are beyond the screen size, do not put pixel
-
 
 
 // void	bresenham_test(mlx_image_t *img, t_map *map)

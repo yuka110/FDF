@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/03 14:55:57 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/04 19:29:42 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_map
 	int			x;
 	int			y;
 	int			iso;
+	double		zoom;
 }					t_map;
 
 //persing_fdf.c
@@ -54,13 +55,18 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img);
 
 //find_points.c
 t_point	**cod_2dcalloc(t_map *map);
-t_point	calculate_cod(int x, int y, t_map *map, int angle);
+t_point	calculate_cod(int x, int y, t_map *map, float angle);
 t_point	**find_cod(t_map *map);
 
 //fdf.c
 mlx_image_t	*set_background(mlx_t *win);
+void	esc_close(mlx_key_data_t keydata, void *win);
 void	print_map(t_map *map);
 void	ft_free(char **s);
+
+//key_hook.c
+void	scroll_zoom(double ydelta,  t_map *map);
+
 //static void ft_hook(void* param);
 
 

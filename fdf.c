@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/03 14:36:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/04 19:27:11 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,15 +21,15 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
-	print_map(map);
+	//print_map(map);
 
-	// mlx_set_setting(, true);
 	win = mlx_init(1080, 720, "fdf", true);
 	if (!win)
 		exit(EXIT_FAILURE);
 	img = set_background(win);
 	draw_line(img, map);
-
+	mlx_scroll_hook(win, &scroll_zoom, map);
+	mlx_key_hook(win, &esc_close, win);
 	mlx_loop(win);
 	mlx_terminate(win);
 	exit(0);
@@ -48,6 +48,15 @@ mlx_image_t	*set_background(mlx_t *win)
 	return (img);
 }
 
+void	esc_close(mlx_key_data_t keydata, void *win)
+{
+	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
+	{
+		mlx_terminate((mlx_t *)win);
+		exit (0);
+	}
+	return ;
+}
 
 // static void ft_hook(void* param)
 // {

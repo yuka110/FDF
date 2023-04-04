@@ -6,12 +6,12 @@
 #    By: yitoh <yitoh@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/19 10:52:21 by yitoh         #+#    #+#                  #
-#    Updated: 2023/04/03 14:25:17 by yitoh         ########   odam.nl          #
+#    Updated: 2023/04/04 19:16:18 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
-SRC = fdf.c parsing_fdf.c draw.c find_points.c
+SRC = fdf.c parsing_fdf.c draw.c find_points.c key_hook.c
 OBJ = $(SRC:.c=.o)
 CFLAG = -Wall -Wextra -Werror -g -fsanitize=address
 NAME = fdf

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/03 14:56:13 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/04 19:19:41 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_map	*init_null(void)
 	map->x = 0;
 	map->y = 0;
 	map->iso = 1;
+	map->zoom = 5;
 	return (map);
 }
 
