@@ -6,17 +6,19 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/04 19:06:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/05 20:26:59 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-void	draw_line(mlx_image_t *img, t_map *map)
+void	draw_line(void *m)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
+	t_map	*map;
 
+	map = (t_map *)m;
 	map->cod = find_cod(map);
 	if (!map->cod)
 		exit (0);
@@ -27,7 +29,7 @@ void	draw_line(mlx_image_t *img, t_map *map)
 		j = 0;
 		while (j < map->x - 1)
 		{
-			plot_line(map->cod[-i][j], map->cod[-i][j + 1], img);
+			plot_line(map->cod[-i][j], map->cod[-i][j + 1], map->img);
 			j++;
 		}
 		i--;
@@ -38,7 +40,7 @@ void	draw_line(mlx_image_t *img, t_map *map)
 		i = 0;
 		while (i < map->y - 1)
 		{
-			plot_line(map->cod[i][j], map->cod[i + 1][j], img);
+			plot_line(map->cod[i][j], map->cod[i + 1][j], map->img);
 			i++;
 		}
 		j++;
@@ -84,7 +86,6 @@ void	high_line(t_point fst, t_point sec, mlx_image_t *img)
 		dx = -dx;
 	}
 	fraction = 2 * dx - dy;
-	mlx_put_pixel(img, i, j, 0xFF0000FF);
 	while (j <= sec.y)
 	{
 		if (fraction >= 0)
@@ -94,7 +95,8 @@ void	high_line(t_point fst, t_point sec, mlx_image_t *img)
 		}
 		j++;
 		fraction += 2 * dx;
-		mlx_put_pixel(img, i, j, 0xFF0000FF);
+		if (i <= (int)img->width && j <= (int)img->height)
+			mlx_put_pixel(img, i, j, 0xFF0000FF);
 	}
 }
 
@@ -118,7 +120,6 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 		dy = -dy;
 	}
 	fraction = 2 * dy - dx;
-	mlx_put_pixel(img, i, j, 0xFF0000FF);
 	while (i <= sec.x)
 	{
 		if (fraction > 0)
@@ -128,7 +129,8 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 		}
 		i++;
 		fraction += 2 * dy;
-		mlx_put_pixel(img, i, j, 0xFF0000FF);
+		if (i <= (int)img->width && j <= (int)img->height)
+			mlx_put_pixel(img, i, j, 0xFF0000FF);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/04 19:21:49 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/05 20:25:48 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,20 +33,18 @@ t_point	**cod_2dcalloc(t_map *map)
 
 t_point	calculate_cod(int x, int y, t_map *map, float angle)
 {
-	int		ori;
 	t_point	p;
 
-	ori = 200;
 	if (map->iso == 1)
 	{
 		angle = 0.523599;
-		p.x = map->zoom * 2 * (x * cos(angle) - y * sin(angle)) + ori;
-		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + ori + (-(map->zoom) * map->map[y][x]);
+		p.x = map->zoom * 2 * (x * cos(angle) - y * sin(angle)) + map->ori;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori + (-(map->zoom) * map->map[y][x]);
 	}
 	else
 	{
-		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + ori;
-		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + ori;
+		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + map->ori;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori;
 	}
 	return (p);
 }

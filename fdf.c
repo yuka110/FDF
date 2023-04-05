@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/04 19:27:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/05 20:25:12 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,37 +15,38 @@
 int	main(int argc, char **argv)
 {
 	t_map	*map;
-	mlx_t	*win;
-	mlx_image_t	*img;
 
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
 	//print_map(map);
 
-	win = mlx_init(1080, 720, "fdf", true);
-	if (!win)
+	map->win = mlx_init(1080, 720, "fdf", true);
+	if (!map->win)
 		exit(EXIT_FAILURE);
-	img = set_background(win);
-	draw_line(img, map);
-	mlx_scroll_hook(win, &scroll_zoom, map);
-	mlx_key_hook(win, &esc_close, win);
-	mlx_loop(win);
-	mlx_terminate(win);
+	set_background(map);
+	mlx_scroll_hook(map->win, &zoom_transit, map);
+	printf("test1\n");
+	mlx_key_hook(map->win, &esc_close, map->win);
+	mlx_loop(map->win);
+	mlx_terminate(map->win);
 	exit(0);
 }
 
-mlx_image_t	*set_background(mlx_t *win)
+void	set_background(void *map)
 {
 	mlx_image_t	*img;
+	mlx_t		*win;
 
+	win = ((t_map *)map)->win;
 	img = mlx_new_image(win, win->width, win->height);
 	if (!img)
 		exit(EXIT_FAILURE);
-	ft_memset(img->pixels, 255, img->width * img->height * sizeof(int32_t));
+	ft_memset(img->pixels, 254, img->width * img->height * sizeof(int32_t));
 	if (mlx_image_to_window(win, img, 0, 0) < 0)
 		exit(EXIT_FAILURE);
-	return (img);
+	((t_map *)map)->img = img;
+	return ;
 }
 
 void	esc_close(mlx_key_data_t keydata, void *win)
