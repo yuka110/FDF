@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/05 20:26:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/07 14:57:28 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	draw_line(void *m)
 		j = 0;
 		while (j < map->x - 1)
 		{
-			plot_line(map->cod[-i][j], map->cod[-i][j + 1], map->img);
+			plot_line(map->cod[-i][j], map->cod[-i][j + 1], map);
 			j++;
 		}
 		i--;
@@ -40,33 +40,33 @@ void	draw_line(void *m)
 		i = 0;
 		while (i < map->y - 1)
 		{
-			plot_line(map->cod[i][j], map->cod[i + 1][j], map->img);
+			plot_line(map->cod[i][j], map->cod[i + 1][j], map);
 			i++;
 		}
 		j++;
 	}
 }
 
-void	plot_line(t_point fst, t_point sec, mlx_image_t *img)
+void	plot_line(t_point fst, t_point sec, t_map *map)
 {
 	//2,3,6,7 octant
 	if (abs(sec.y - fst.y) < abs(sec.x - fst.x))
 	{
 		if (fst.x < sec.x)
-			low_line(fst, sec, img);
+			low_line(fst, sec, map);
 		else
-			low_line(sec, fst, img);
+			low_line(sec, fst, map);
 	}
 	else
 	{
 		if (fst.y < sec.y)
-			high_line(fst, sec, img);
+			high_line(fst, sec, map);
 		else
-			high_line(sec, fst, img);
+			high_line(sec, fst, map);
 	}
 }
 
-void	high_line(t_point fst, t_point sec, mlx_image_t *img)
+void	high_line(t_point fst, t_point sec, t_map *map)
 {
 	int	dx;
 	int	dy;
@@ -95,12 +95,12 @@ void	high_line(t_point fst, t_point sec, mlx_image_t *img)
 		}
 		j++;
 		fraction += 2 * dx;
-		if (i <= (int)img->width && j <= (int)img->height)
-			mlx_put_pixel(img, i, j, 0xFF0000FF);
+		if (i > 0 && (int )map->img->width > i && j > 0 && (int )map->img->height > j)
+			mlx_put_pixel(map->img, i, j, 0xFF0000FF);
 	}
 }
 
-void	low_line(t_point fst, t_point sec, mlx_image_t *img)
+void	low_line(t_point fst, t_point sec, t_map *map)
 {
 	int	dx;
 	int	dy;
@@ -129,26 +129,7 @@ void	low_line(t_point fst, t_point sec, mlx_image_t *img)
 		}
 		i++;
 		fraction += 2 * dy;
-		if (i <= (int)img->width && j <= (int)img->height)
-			mlx_put_pixel(img, i, j, 0xFF0000FF);
+		if (i > 0 && (int )map->img->width > i && j > 0 && (int )map->img->height > j)
+			mlx_put_pixel(map->img, i, j, 0xFF0000FF);
 	}
 }
-
-//if new points are beyond the screen size, do not put pixel
-
-
-// void	bresenham_test(mlx_image_t *img, t_map *map)
-// {
-// 	plot_line(new_point(0, 0, map, 30), new_point(200, 0, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(-200, 0, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(0, 200, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(0, -200, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(100, 50, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(50, 100, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(200, -50, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(50, -200, map, 30), img);	
-// 	plot_line(new_point(0, 0, map, 30), new_point(-200, -50, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(-50, -200, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(-100, 50, map, 30), img);
-// 	plot_line(new_point(0, 0, map, 30), new_point(-50, 100, map, 30), img);
-// }

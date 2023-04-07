@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/05 20:25:48 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/07 14:24:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ t_point	calculate_cod(int x, int y, t_map *map, float angle)
 	else
 	{
 		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + map->ori;
-		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori + (-(map->zoom) * map->map[y][x]);
 	}
 	return (p);
 }
@@ -64,10 +64,9 @@ t_point	**find_cod(t_map *map)
 		j = 0;
 		while (j < map->x)
 		{
-			new_cod[i][j] = calculate_cod(j, i, map, 0);
+			new_cod[i][j] = calculate_cod(j, i, map, map->angle);
 			j++;
 		}
-		// printf("------------------\ni:%d, j:%d, x:%d y:%d\n", i, j - 1, new_cod[i][j - 1].x, new_cod[i][j - 1].y);
 		i++;
 	}
 	return (new_cod);
