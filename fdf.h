@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/07 14:34:21 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/12 15:34:04 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ typedef struct s_map
 	int			iso;
 	double		zoom;
 	float		angle;
-	int			ori;
+	int			xp;
+	int			yp;
+	int			yaxis;
+	int			zaxis;
+
 }					t_map;
 
 //persing_fdf.c
@@ -67,8 +71,9 @@ void	print_map(t_map *map);
 void	ft_free(char **s);
 
 //key_hook.c
-void	zoom_transit(double xdelta, double ydelta, void *m);
-void	key_input(mlx_key_data_t keydata, void *win);
+void	zoom(double xdelta, double ydelta, void *m);
+void	key_input(mlx_key_data_t keydata, void *map);
+void	camera(mlx_key_data_t keydata, void *map);
 
 
 

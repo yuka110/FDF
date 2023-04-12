@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/07 14:24:51 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/12 16:12:19 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,18 @@ t_point	**cod_2dcalloc(t_map *map)
 t_point	calculate_cod(int x, int y, t_map *map, float angle)
 {
 	t_point	p;
+	// y and z rotation to be figured out
 
 	if (map->iso == 1)
 	{
 		angle = 0.523599;
-		p.x = map->zoom * 2 * (x * cos(angle) - y * sin(angle)) + map->ori;
-		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori + (-(map->zoom) * map->map[y][x]);
+		p.x = map->zoom * 2 * (x * cos(angle) - y * sin(angle)) + map->xp;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->yp + (-(map->zoom) * map->map[y][x]);
 	}
 	else
 	{
-		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + map->ori;
-		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->ori + (-(map->zoom) * map->map[y][x]);
+		p.x = map->zoom * (x * cos(angle) - y * sin(angle)) + map->xp;
+		p.y = map->zoom * (x * sin(angle) + y * cos(angle)) + map->yp + (-(map->zoom) * map->map[y][x]);
 	}
 	return (p);
 }
