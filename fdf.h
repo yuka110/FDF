@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/12 15:34:04 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/19 14:42:57 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_point
 {
 	int		x;
 	int		y;
+	int		z;
 }					t_point;
 
 typedef struct s_map
@@ -39,11 +40,11 @@ typedef struct s_map
 	int			y;
 	int			iso;
 	double		zoom;
-	float		angle;
 	int			xp;
 	int			yp;
-	int			yaxis;
-	int			zaxis;
+	float		xaxis;
+	float		yaxis;
+	float		zaxis;
 
 }					t_map;
 
@@ -62,8 +63,12 @@ void	low_line(t_point fst, t_point sec, t_map *map);
 
 //find_points.c
 t_point	**cod_2dcalloc(t_map *map);
-t_point	calculate_cod(int x, int y, t_map *map, float angle);
+t_point	calculate_cod(int x, int y, int z, t_map *map);
 t_point	**find_cod(t_map *map);
+int		x_rotation(t_map *map, int x, int y, int z);
+int		y_rotation(t_map *map, int x, int y, int z);
+int		z_rotation(t_map *map, int x, int y, int z);
+
 
 //fdf.c
 void	set_background(void *map);
@@ -73,7 +78,8 @@ void	ft_free(char **s);
 //key_hook.c
 void	zoom(double xdelta, double ydelta, void *m);
 void	key_input(mlx_key_data_t keydata, void *map);
-void	camera(mlx_key_data_t keydata, void *map);
+void	transition(mlx_key_data_t keydata, void *map);
+void	rotation(mlx_key_data_t keydata, void *map);
 
 
 

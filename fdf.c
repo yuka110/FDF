@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/12 14:40:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/15 19:53:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
-	//print_map(map);
+	print_map(map);
 
 	map->win = mlx_init(1080, 720, "fdf", true);
 	if (!map->win)

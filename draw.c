@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/07 14:57:28 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/16 17:30:28 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	draw_line(void *m)
 
 	map = (t_map *)m;
 	map->cod = find_cod(map);
+	
 	if (!map->cod)
 		exit (0);
 	//drawing (horizontal and vertical)
@@ -50,6 +51,7 @@ void	draw_line(void *m)
 void	plot_line(t_point fst, t_point sec, t_map *map)
 {
 	//2,3,6,7 octant
+	// printf("test2\n");
 	if (abs(sec.y - fst.y) < abs(sec.x - fst.x))
 	{
 		if (fst.x < sec.x)
