@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/19 15:26:33 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/24 15:59:24 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_point	**cod_2dcalloc(t_map *map)
 {
-	int	i;
+	int		i;
 	t_point	**arr;
 
 	i = 0;
@@ -106,29 +106,6 @@ int	z_rotation(t_map *map, int x, int y, int z)
 	zz = cos(map->xaxis) * cos(map->yaxis) * zoom;
 	return ((int)zx * x + zy * y + zz * z);
 }
-
-// void	y_rotation(t_point *p, t_map *map)
-// {	
-// 	float	angle;
-
-// 	angle = map->yaxis;
-// 	(*p).x = ((*p).x * cos(angle) + ((*p).z * sin(angle)));
-// 	(*p).z = (-(*p).x * sin(angle) + ((*p).z * cos(angle)));
-// }
-
-// void	z_rotation(t_point *p, t_map *map)
-// {	
-// 	float	angle;
-// 	int		xoffset;
-// 	int		yoffset;
-
-// 	angle = map->zaxis;
-// 	xoffset = (map->img->width - (map->x * map->zoom)) / 2 + map->xp;
-// 	yoffset = (map->img->height - (map->y * map->zoom)) / 2 + map->yp;
-// 	(*p).x = ((*p).x * cos(angle) - (*p).y * sin(angle)) + xoffset;
-// 	(*p).y = ((*p).x * sin(angle) + (*p).y * cos(angle)) + yoffset - (*p).z;
-// 	printf("x;%d, y;%d z;%d\n", (*p).x, (*p).y, (*p).z);
-// }
 
 
 t_point	**find_cod(t_map *map)

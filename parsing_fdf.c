@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/19 15:26:43 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/24 16:46:37 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,14 @@ t_map	*open_parse(char **argv)
 	map = init_null();
 	if (!map)
 		exit(0);
+	color_setup(&(map->light), map);
 	tmp = read_split(fd, map);
 	if (!tmp)
 		exit(0);
 	map_tmp = ft_2dcalloc(map, tmp);
 	if (!map_tmp)
 		exit(0);
-	map = input_arr(map, tmp, map_tmp);
+	input_arr(&map, tmp, map_tmp);
 	close(fd);
 	return (map);
 }
@@ -47,6 +48,7 @@ t_map	*init_null(void)
 	map->img = NULL;
 	map->map = NULL;
 	map->cod = NULL;
+	map->light = NULL;
 	map->x = 0;
 	map->y = 0;
 	map->iso = 0;
@@ -81,6 +83,7 @@ char	**read_split(int fd, t_map *map)
 		free(line);
 	}
 	map->y = i;
+	map->light->cod_dif = max_z(tmp) - min_z(tmp);
 	arr_2d = ft_split(tmp, '\n');
 	if (!arr_2d)
 		exit(0);
@@ -90,18 +93,16 @@ char	**read_split(int fd, t_map *map)
 int	**ft_2dcalloc(t_map *map, char **tmp)
 {
 	int	i;
-	int	j;
 	int	**arr;
 
 	i = 0;
-	j = 0;
 	while (tmp[0][i])
 	{
-		if (tmp[0][i] != ' ' && tmp[0][i] != '-')
-			++j;
+		if (tmp[0][i] != ' ' && tmp[0][i] != '-'
+			&& (tmp[0][i + 1] == ' ' || tmp[0][i + 1] == '\0'))
+			map->x++;
 		++i;
 	}
-	map->x = j;
 	arr = ft_calloc(map->y + 1, sizeof(int *));
 	if (!arr)
 		exit(0);
@@ -117,12 +118,14 @@ int	**ft_2dcalloc(t_map *map, char **tmp)
 	return (arr);
 }
 
-t_map	*input_arr(t_map *map, char **tmp, int **map_tmp)
+void	input_arr(t_map **m, char **tmp, int **map_tmp)
 {
 	char	**one_line;
+	t_map	*map;
 	int		i;
 	int		j;
 
+	map = *m;
 	i = 0;
 	while (tmp[i])
 	{
@@ -130,7 +133,7 @@ t_map	*input_arr(t_map *map, char **tmp, int **map_tmp)
 		if (!one_line)
 			exit(0);
 		j = 0;
-		while (j < map->x)
+		while (j < map->x && one_line[j])
 		{
 			map_tmp[i][j] = ft_atoi(one_line[j]);
 			j++;
@@ -139,6 +142,6 @@ t_map	*input_arr(t_map *map, char **tmp, int **map_tmp)
 		++i;
 	}
 	map->map = map_tmp;
-	return (ft_free(tmp), map);
+	return (ft_free(tmp));
 }
 
