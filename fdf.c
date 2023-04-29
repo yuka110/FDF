@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/24 15:33:19 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/29 16:21:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
-	print_map(map);
+	// print_map(map);
 
 	map->win = mlx_init(1080, 720, "fdf", true);
 	if (!map->win)
@@ -38,12 +38,24 @@ void	set_background(void *map)
 {
 	mlx_image_t	*img;
 	mlx_t		*win;
+	uint32_t	i;
+	uint32_t	j;
 
+	i = 0;
 	win = ((t_map *)map)->win;
 	img = mlx_new_image(win, win->width, win->height);
 	if (!img)
 		exit(EXIT_FAILURE);
-	ft_memset(img->pixels, 254, img->width * img->height * sizeof(int32_t));
+	while (i < img->height)
+	{
+		j = 0;
+		while (j < img->width)
+		{
+			mlx_put_pixel(img, j, i, 0x000000FF);
+			++j;
+		}
+		++i;
+	}
 	if (mlx_image_to_window(win, img, 0, 0) < 0)
 		exit(EXIT_FAILURE);
 	((t_map *)map)->img = img;

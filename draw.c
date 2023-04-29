@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/24 15:34:04 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/29 18:25:03 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	draw_line(void *m)
 
 	map = (t_map *)m;
 	map->cod = find_cod(map);
-	
 	if (!map->cod)
 		exit (0);
 	//drawing (horizontal and vertical)
@@ -51,7 +50,6 @@ void	draw_line(void *m)
 void	plot_line(t_point fst, t_point sec, t_map *map)
 {
 	//2,3,6,7 octant
-	// printf("test2\n");
 	if (abs(sec.y - fst.y) < abs(sec.x - fst.x))
 	{
 		if (fst.x < sec.x)
@@ -70,68 +68,69 @@ void	plot_line(t_point fst, t_point sec, t_map *map)
 
 void	high_line(t_point fst, t_point sec, t_map *map)
 {
-	int	dx;
-	int	dy;
-	int fraction;
-	int i;
-	int j;
-	int	xstep;
+	t_bresenham	b;
+	int			fraction;
 
-	i = fst.x;
-	j = fst.y;
-	dx = (sec.x - fst.x);
-	dy = (sec.y - fst.y);
-	xstep = 1;
-	if (dx < 0)
+	b = bresenham_setup(fst, sec, map);
+	if (b.dx < 0)
 	{
-		xstep = -1;
-		dx = -dx;
+		b.step = -1;
+		b.dx = -(b.dx);
 	}
-	fraction = 2 * dx - dy;
-	while (j <= sec.y)
+	fraction = 2 * b.dx - b.dy;
+	while (b.j <= sec.y)
 	{
 		if (fraction >= 0)
 		{
-			i += xstep;
-			fraction -= 2 * dy;
+			b.i += b.step;
+			fraction -= 2 * b.dy;
 		}
-		j++;
-		fraction += 2 * dx;
-		if (i > 0 && (int )map->img->width > i && j > 0 && (int )map->img->height > j)
-			mlx_put_pixel(map->img, i, j, 0xFF0000FF);
+		b.j++;
+		fraction += 2 * b.dx;
+		map->light->ratio = percent(b.i, b.j, fst, sec);
+		// printf("percent %f\n", map->light->ratio);
+		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
+			&& (int )map->img->height > b.j)
+			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, map));
 	}
 }
 
 void	low_line(t_point fst, t_point sec, t_map *map)
 {
-	int	dx;
-	int	dy;
-	int fraction;
-	int i;
-	int j;
-	int	ystep;
+	t_bresenham	b;
+	int			fraction;
 
-	i = fst.x;
-	j = fst.y;
-	dx = (sec.x - fst.x);
-	dy = (sec.y - fst.y);
-	ystep = 1;
-	if (dy < 0)
+	b = bresenham_setup(fst, sec, map);
+	if (b.dy < 0)
 	{
-		ystep = -1;
-		dy = -dy;
+		b.step = -1;
+		b.dy = -(b.dy);
 	}
-	fraction = 2 * dy - dx;
-	while (i <= sec.x)
+	fraction = 2 * b.dy - b.dx;
+	while (b.i <= sec.x)
 	{
 		if (fraction > 0)
 		{
-			j += ystep;
-			fraction -= 2 * dx;
+			b.j += b.step;
+			fraction -= 2 * b.dx;
 		}
-		i++;
-		fraction += 2 * dy;
-		if (i > 0 && (int )map->img->width > i && j > 0 && (int )map->img->height > j)
-			mlx_put_pixel(map->img, i, j, 0xFF0000FF);
+		b.i++;
+		fraction += 2 * b.dy;
+		map->light->ratio = percent(b.i, b.j, fst, sec);
+		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
+			&& (int )map->img->height > b.j)
+			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, map));
 	}
+}
+
+t_bresenham	bresenham_setup(t_point fst, t_point sec, t_map *map)
+{
+	t_bresenham	b;
+
+	b.i = fst.x;
+	b.j = fst.y;
+	b.dx = (sec.x - fst.x);
+	b.dy = (sec.y - fst.y);
+	b.step = 1;
+	return (b);
 }

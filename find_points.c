@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/24 15:59:24 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/29 17:35:46 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,32 +34,29 @@ t_point	**cod_2dcalloc(t_map *map)
 t_point	calculate_cod(int x, int y, int z, t_map *map)
 {
 	t_point	p;
-	float	a;
-	int		xoffset;
-	int		yoffset;
+	int		xoff;
+	int		yoff;
 
-	xoffset = (map->img->width - (map->x * map->zoom)) / 2 + map->xp;
-	yoffset = (map->img->height - (map->y * map->zoom)) / 2 + map->yp;
+	xoff = (map->img->width - (map->x * map->zoom)) / 2 + map->xp;
+	yoff = (map->img->height - (map->y * map->zoom)) / 2 + map->yp;
 	if (map->iso == 1)
 	{
-		// // map->xaxis = 
-		// map->zaxis = 45 * (M_PI / 180);//0.615479709;
-		// map->xaxis = (90-35.264) * (M_PI / 180);//0.75049;
-		a = 0.523599;
 		p.z = -(map->zoom) * z;
-		p.x = 2 * map->zoom * (x * cos(a) - y * sin(a)) + xoffset;
-		p.y = map->zoom * (x * sin(a) + y * cos(a)) + yoffset + p.z;
+		p.x = 2 * map->zoom * (x * cos(0.523599) - y * sin(0.523599)) + xoff;
+		p.y = map->zoom * (x * sin(0.523599) + y * cos(0.523599)) + yoff + p.z;
 	}
 	else
 	{
-		p.x = x_rotation(map, x, y, z);
-		p.y = y_rotation(map, x, y, z);
+		p.x = x_rotation(map, x, y, z) + xoff;
+		p.y = y_rotation(map, x, y, z) + yoff;
 		p.z = z_rotation(map, x, y, z);
-		p.x = p.x + xoffset;
-		p.y = p.y + yoffset - p.z;
+		p.y = p.y - p.z;
 	}
 	return (p);
 }
+		// // map->xaxis = 
+		// map->zaxis = 45 * (M_PI / 180);//0.615479709;
+		// map->xaxis = (90-35.264) * (M_PI / 180);//0.75049;
 
 int	x_rotation(t_map *map, int x, int y, int z)
 {	
@@ -106,7 +103,6 @@ int	z_rotation(t_map *map, int x, int y, int z)
 	zz = cos(map->xaxis) * cos(map->yaxis) * zoom;
 	return ((int)zx * x + zy * y + zz * z);
 }
-
 
 t_point	**find_cod(t_map *map)
 {

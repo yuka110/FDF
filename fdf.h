@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/24 16:46:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/29 18:26:31 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,24 @@ typedef struct s_point
 
 typedef struct s_color
 {
-	int		*rgba;
-	// int		min_z;
-	// int		max_z;
-	int		cod_dif;
+	long	*rgba;
+	int		min_z;
+	int		max_z;
+	int		height;
+	double		cod_dif;
 	int		from;
 	int		to;
+	double	ratio;
 }					t_color;
+
+typedef struct s_bresenham
+{
+	int	dx;
+	int	dy;
+	int	i;
+	int	j;
+	int	step;
+}					t_bresenham;
 
 typedef struct s_map
 {
@@ -73,6 +84,7 @@ void	draw_line(void *m);
 void	plot_line(t_point fst, t_point sec, t_map *map);
 void	high_line(t_point fst, t_point sec, t_map *map);
 void	low_line(t_point fst, t_point sec, t_map *map);
+t_bresenham	bresenham_setup(t_point fst, t_point sec, t_map *map);
 
 //find_points.c
 t_point	**cod_2dcalloc(t_map *map);
@@ -95,11 +107,15 @@ void	transition(mlx_key_data_t keydata, void *map);
 void	rotation(mlx_key_data_t keydata, void *map);
 
 //get_color.c
-void	color_setup(t_color **c, t_map *map);
-int		*set_rgba(void);
+int		get_color(t_color *c, t_map *map);
+int		linear_grad(double percent, int from_color, int to_color);
+double	percent(int curx, int cury, t_point fst, t_point sec);
+void	color_setup(t_color **c);
+long	*set_color(void);
 int		min_z(char *line);
 int		max_z(char *line);
 
-
+int		max_zvalue(int **s);
+int		min_zvalue(int **s);
 
 #endif

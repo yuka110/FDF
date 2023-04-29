@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/24 16:46:37 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/04/29 17:39:56 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ t_map	*open_parse(char **argv)
 	map = init_null();
 	if (!map)
 		exit(0);
-	color_setup(&(map->light), map);
 	tmp = read_split(fd, map);
 	if (!tmp)
 		exit(0);
@@ -33,6 +32,7 @@ t_map	*open_parse(char **argv)
 	if (!map_tmp)
 		exit(0);
 	input_arr(&map, tmp, map_tmp);
+	color_setup(&(map->light));
 	close(fd);
 	return (map);
 }
@@ -83,7 +83,6 @@ char	**read_split(int fd, t_map *map)
 		free(line);
 	}
 	map->y = i;
-	map->light->cod_dif = max_z(tmp) - min_z(tmp);
 	arr_2d = ft_split(tmp, '\n');
 	if (!arr_2d)
 		exit(0);
