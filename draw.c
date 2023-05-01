@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/29 18:25:03 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/01 20:54:55 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	high_line(t_point fst, t_point sec, t_map *map)
 	t_bresenham	b;
 	int			fraction;
 
-	b = bresenham_setup(fst, sec, map);
+	b = bresenham_setup(fst, sec);
 	if (b.dx < 0)
 	{
 		b.step = -1;
@@ -87,11 +87,9 @@ void	high_line(t_point fst, t_point sec, t_map *map)
 		}
 		b.j++;
 		fraction += 2 * b.dx;
-		map->light->ratio = percent(b.i, b.j, fst, sec);
-		// printf("percent %f\n", map->light->ratio);
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
 			&& (int )map->img->height > b.j)
-			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, map));
+			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 
@@ -100,7 +98,7 @@ void	low_line(t_point fst, t_point sec, t_map *map)
 	t_bresenham	b;
 	int			fraction;
 
-	b = bresenham_setup(fst, sec, map);
+	b = bresenham_setup(fst, sec);
 	if (b.dy < 0)
 	{
 		b.step = -1;
@@ -116,14 +114,13 @@ void	low_line(t_point fst, t_point sec, t_map *map)
 		}
 		b.i++;
 		fraction += 2 * b.dy;
-		map->light->ratio = percent(b.i, b.j, fst, sec);
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
 			&& (int )map->img->height > b.j)
-			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, map));
+			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 
-t_bresenham	bresenham_setup(t_point fst, t_point sec, t_map *map)
+t_bresenham	bresenham_setup(t_point fst, t_point sec)
 {
 	t_bresenham	b;
 

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 19:09:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/19 15:26:11 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/01 20:52:39 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	key_input(mlx_key_data_t keydata, void *map)
 		exit (0);
 	}
 	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
-		((t_map *)map)->iso = 0;
+		(((t_map *)map)->iso) = 0;
 	if (keydata.key == MLX_KEY_I && keydata.action == MLX_PRESS)
 		((t_map *)map)->iso = 1;
 	transition(keydata, map);

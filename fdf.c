@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/29 16:21:31 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/01 20:52:52 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	set_background(map);
 	draw_line(map);
-	
+
 	mlx_scroll_hook(map->win, &zoom, map);
 	mlx_key_hook(map->win, &key_input, map);
 	mlx_loop(map->win);

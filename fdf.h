@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/29 18:26:31 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/01 20:52:45 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,9 @@ typedef struct s_point
 	int	x;
 	int	y;
 	int	z;
-	int	color;
+	double	ratio;
+	// int	h_color;
+	// int	v_color;
 }					t_point;
 
 typedef struct s_color
@@ -40,7 +42,6 @@ typedef struct s_color
 	double		cod_dif;
 	int		from;
 	int		to;
-	double	ratio;
 }					t_color;
 
 typedef struct s_bresenham
@@ -84,12 +85,15 @@ void	draw_line(void *m);
 void	plot_line(t_point fst, t_point sec, t_map *map);
 void	high_line(t_point fst, t_point sec, t_map *map);
 void	low_line(t_point fst, t_point sec, t_map *map);
-t_bresenham	bresenham_setup(t_point fst, t_point sec, t_map *map);
+t_bresenham	bresenham_setup(t_point fst, t_point sec);
 
 //find_points.c
 t_point	**cod_2dcalloc(t_map *map);
 t_point	calculate_cod(int x, int y, int z, t_map *map);
 t_point	**find_cod(t_map *map);
+void	color_per_unit(int i, int j, t_point *cod, t_map *map);
+
+//rotation_equation.c
 int		x_rotation(t_map *map, int x, int y, int z);
 int		y_rotation(t_map *map, int x, int y, int z);
 int		z_rotation(t_map *map, int x, int y, int z);
@@ -107,15 +111,14 @@ void	transition(mlx_key_data_t keydata, void *map);
 void	rotation(mlx_key_data_t keydata, void *map);
 
 //get_color.c
-int		get_color(t_color *c, t_map *map);
+int	get_color(t_color *c, double percent);
 int		linear_grad(double percent, int from_color, int to_color);
-double	percent(int curx, int cury, t_point fst, t_point sec);
-void	color_setup(t_color **c);
+double	percent(int curx, int cury, t_point *fst, t_point *sec);
+void	color_setup(t_color **c, t_map *map);
 long	*set_color(void);
-int		min_z(char *line);
-int		max_z(char *line);
 
-int		max_zvalue(int **s);
-int		min_zvalue(int **s);
+
+int		max_zvalue(int **s, t_map *map, int height);
+int		min_zvalue(int **s, t_map *map, int height);
 
 #endif

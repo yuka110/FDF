@@ -6,11 +6,35 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/04/29 17:35:46 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/01 21:13:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+t_point	**find_cod(t_map *map)
+{
+	t_point	**new_cod;
+	int		i;
+	int		j;
+
+	new_cod = cod_2dcalloc(map);
+	if (!new_cod)
+		return (NULL);
+	i = 0;
+	while (i < map->y)
+	{
+		j = 0;
+		while (j < map->x)
+		{
+			new_cod[i][j] = calculate_cod(j, i, map->map[i][j], map);
+			color_per_unit(i, j, &(new_cod[i][j]), map);
+			j++;
+		}
+		i++;
+	}
+	return (new_cod);
+}
 
 t_point	**cod_2dcalloc(t_map *map)
 {
@@ -44,85 +68,33 @@ t_point	calculate_cod(int x, int y, int z, t_map *map)
 		p.z = -(map->zoom) * z;
 		p.x = 2 * map->zoom * (x * cos(0.523599) - y * sin(0.523599)) + xoff;
 		p.y = map->zoom * (x * sin(0.523599) + y * cos(0.523599)) + yoff + p.z;
+		// map->xaxis = 0 * (M_PI / 180);
+		// map->yaxis = 15 * (M_PI / 180);//0.615479709;
+		// map->zaxis = 35.264 * (M_PI / 180);//0.75049;
 	}
 	else
 	{
 		p.x = x_rotation(map, x, y, z) + xoff;
 		p.y = y_rotation(map, x, y, z) + yoff;
 		p.z = z_rotation(map, x, y, z);
-		p.y = p.y - p.z;
+		p.y = p.y - (p.z / 2);
 	}
 	return (p);
 }
-		// // map->xaxis = 
-		// map->zaxis = 45 * (M_PI / 180);//0.615479709;
-		// map->xaxis = (90-35.264) * (M_PI / 180);//0.75049;
 
-int	x_rotation(t_map *map, int x, int y, int z)
-{	
-	float	xx;
-	float	xy;
-	float	xz;
-	double	zoom;
+		// map->xaxis = 0;
 
-	zoom = map->zoom;
-	xx = cos(map->zaxis) * cos(map->xaxis) * zoom;
-	xy = (cos(map->zaxis) * sin(map->xaxis) * sin(map->yaxis) * zoom
-			- sin(map->zaxis) * cos(map->yaxis) * zoom);
-	xz = (cos(map->zaxis) * sin(map->xaxis) * cos(map->yaxis) * zoom
-			+ sin(map->zaxis) * sin(map->yaxis) * zoom);
-	return ((int)xx * x + xy * y + xz * z);
-}
-
-int	y_rotation(t_map *map, int x, int y, int z)
-{	
-	float	yx;
-	float	yy;
-	float	yz;
-	double	zoom;
-
-	zoom = map->zoom;
-	yx = sin(map->zaxis) * cos(map->xaxis) * zoom;
-	yy = (sin(map->zaxis) * sin(map->xaxis) * sin(map->yaxis) * zoom
-			+ cos(map->zaxis) * cos(map->yaxis) * zoom);
-	yz = (sin(map->zaxis) * sin(map->xaxis) * cos(map->yaxis) * zoom
-			- sin(map->zaxis) * sin(map->yaxis) * zoom);
-	return ((int)yx * x + yy * y + yz * z);
-}
-
-int	z_rotation(t_map *map, int x, int y, int z)
-{	
-	float	zx;
-	float	zy;
-	float	zz;
-	double	zoom;
-
-	zoom = map->zoom;
-	zx = -sin(map->xaxis) * zoom;
-	zy = cos(map->xaxis) * sin(map->yaxis) * zoom;
-	zz = cos(map->xaxis) * cos(map->yaxis) * zoom;
-	return ((int)zx * x + zy * y + zz * z);
-}
-
-t_point	**find_cod(t_map *map)
+void	color_per_unit(int i, int j, t_point *cod, t_map *map)
 {
-	t_point	**new_cod;
-	int		i;
-	int		j;
+	t_color	*c;
 
-	new_cod = cod_2dcalloc(map);
-	if (!new_cod)
-		return (NULL);
-	i = 0;
-	while (i < map->y)
-	{
-		j = 0;
-		while (j < map->x)
-		{
-			new_cod[i][j] = calculate_cod(j, i, map->map[i][j], map);
-			j++;
-		}
-		i++;
-	}
-	return (new_cod);
+	c = map->light;
+	if (map->map[i][j] == c->min_z)
+		(*cod).ratio = 1.0;
+	else if (map->map[i][j] == c->max_z)
+		(*cod).ratio = 0;
+	else
+		(*cod).ratio = (double)(map->map[i][j] - c->min_z)
+			/ (c->max_z - c->min_z);
 }
+
