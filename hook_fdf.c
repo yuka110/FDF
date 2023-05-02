@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 19:09:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 20:52:39 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 17:24:00 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	key_input(mlx_key_data_t keydata, void *map)
 	if (keydata.key == MLX_KEY_ESCAPE && keydata.action == MLX_PRESS)
 	{
 		mlx_terminate(((t_map *)map)->win);
-		exit (0);
+		exit (EXIT_FAILURE);
 	}
 	if (keydata.key == MLX_KEY_O && keydata.action == MLX_PRESS)
 		(((t_map *)map)->iso) = 0;

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 21:13:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 17:18:26 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_point	**find_cod(t_map *map)
 
 	new_cod = cod_2dcalloc(map);
 	if (!new_cod)
-		return (NULL);
+		exit(EXIT_FAILURE);
 	i = 0;
 	while (i < map->y)
 	{
@@ -44,12 +44,12 @@ t_point	**cod_2dcalloc(t_map *map)
 	i = 0;
 	arr = ft_calloc(map->y + 1, sizeof(t_point *));
 	if (!arr)
-		exit(0);
+		exit(EXIT_FAILURE);
 	while (i < map->y)
 	{
 		arr[i] = ft_calloc(map->x + 1, sizeof(t_point));
 		if (!arr[i])
-			exit(0);
+			exit(EXIT_FAILURE);
 		++i;
 	}
 	return (arr);

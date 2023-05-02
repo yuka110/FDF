@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/29 17:39:02 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 19:38:15 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 17:28:22 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	color_setup(t_color **c, t_map *map)
 {
 	*c = malloc(sizeof(t_color));
 	if (!(*c))
-		exit(0);
+		exit(EXIT_FAILURE);
 	(*c)->rgba = set_color();
 	(*c)->from = (*c)->rgba[0];
 	(*c)->to = (*c)->rgba[1];
@@ -30,9 +30,9 @@ void	color_setup(t_color **c, t_map *map)
 //0=pink, 1=blue, 2=mint, 3=yellow
 long	*set_color(void)
 {
-	long	*basic_color;
+	static long	basic_color[5];
 
-	basic_color = malloc(5 * sizeof(long));
+	// basic_color = malloc(5 * sizeof(long));
 	basic_color[0] = 0xFF99CCFF;
 	basic_color[1] = 0x3333FFFF;
 	basic_color[2] = 0x99FFCCFF;

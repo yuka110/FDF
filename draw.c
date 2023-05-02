@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 20:54:55 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 18:33:44 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	draw_line(void *m)
 		}
 		j++;
 	}
+	ft_freet_point(map->cod);
 }
 
 void	plot_line(t_point fst, t_point sec, t_map *map)
@@ -89,7 +90,8 @@ void	high_line(t_point fst, t_point sec, t_map *map)
 		fraction += 2 * b.dx;
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
 			&& (int )map->img->height > b.j)
-			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, percent(b.i, b.j, &fst, &sec)));
+			mlx_put_pixel(map->img, b.i, b.j,
+				get_color(map->light, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 
@@ -116,7 +118,8 @@ void	low_line(t_point fst, t_point sec, t_map *map)
 		fraction += 2 * b.dy;
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
 			&& (int )map->img->height > b.j)
-			mlx_put_pixel(map->img, b.i, b.j, get_color(map->light, percent(b.i, b.j, &fst, &sec)));
+			mlx_put_pixel(map->img, b.i, b.j,
+				get_color(map->light, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 

@@ -6,23 +6,33 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 20:52:52 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 18:31:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
+void	f(void)
+{
+	system("leaks -q fdf");
+}
+
 int	main(int argc, char **argv)
 {
 	t_map	*map;
 
+	atexit(f);
 	if (argc != 2)
 		exit(0);
 	map = open_parse(argv);
+	if (!map)
+		exit(EXIT_FAILURE);
 	// print_map(map);
-
 	map->win = mlx_init(1080, 720, "fdf", true);
 	if (!map->win)
+		exit(EXIT_FAILURE);
+	map->img = mlx_new_image(map->win, map->win->width, map->win->height);
+	if (!map->img)
 		exit(EXIT_FAILURE);
 	set_background(map);
 	draw_line(map);
@@ -31,7 +41,7 @@ int	main(int argc, char **argv)
 	mlx_key_hook(map->win, &key_input, map);
 	mlx_loop(map->win);
 	mlx_terminate(map->win);
-	exit(0);
+	exit(EXIT_SUCCESS);
 }
 
 void	set_background(void *map)
@@ -43,9 +53,7 @@ void	set_background(void *map)
 
 	i = 0;
 	win = ((t_map *)map)->win;
-	img = mlx_new_image(win, win->width, win->height);
-	if (!img)
-		exit(EXIT_FAILURE);
+	img = ((t_map *)map)->img;
 	while (i < img->height)
 	{
 		j = 0;
@@ -86,10 +94,24 @@ void	ft_free(char **s)
 	int	i;
 
 	i = 0;
-	while (s && s[i])
+	while (s[i])
 	{
 		free(s[i]);
 		++i;
 	}
 	free(s);
+}
+
+void	ft_freet_point(t_point **s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		free(s[i]);
+		++i;
+	}
+	free(s);
+	printf("free int array\n");
 }

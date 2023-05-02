@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 20:14:42 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 18:56:57 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,16 @@ t_map	*open_parse(char **argv)
 
 	fd = open(argv[1], O_RDONLY);
 	if (fd < 0)
-		exit(0);
+		exit(EXIT_FAILURE);
 	map = init_null();
 	if (!map)
-		exit(0);
+		exit(EXIT_FAILURE);
 	tmp = read_split(fd, map);
-	if (!tmp)
-		exit(0);
+	if (!tmp || comma_check(tmp) == 1)
+		exit(EXIT_FAILURE);
 	map_tmp = ft_2dcalloc(map, tmp);
 	if (!map_tmp)
-		exit(0);
+		exit(EXIT_FAILURE);
 	input_arr(&map, tmp, map_tmp);
 	color_setup(&(map->light), map);
 	close(fd);
@@ -43,7 +43,7 @@ t_map	*init_null(void)
 
 	map = malloc(sizeof(t_map));
 	if (!map)
-		exit(0);
+		exit(EXIT_FAILURE);
 	map->win = NULL;
 	map->img = NULL;
 	map->map = NULL;
@@ -78,14 +78,16 @@ char	**read_split(int fd, t_map *map)
 			break ;
 		tmp = gnl_strjoin(tmp, line);
 		if (!tmp)
-			exit(0);
+			exit(EXIT_FAILURE);
 		++i;
 		free(line);
 	}
+	printf("test\n");
 	map->y = i;
+
 	arr_2d = ft_split(tmp, '\n');
 	if (!arr_2d)
-		exit(0);
+		exit(EXIT_FAILURE);
 	return (free(tmp), arr_2d);
 }
 
@@ -104,13 +106,13 @@ int	**ft_2dcalloc(t_map *map, char **tmp)
 	}
 	arr = ft_calloc(map->y + 1, sizeof(int *));
 	if (!arr)
-		exit(0);
+		exit(EXIT_FAILURE);
 	i = 0;
 	while (i < map->y)
 	{
 		arr[i] = ft_calloc(map->x + 1, sizeof(int));
 		if (!arr[i])
-			exit(0);
+			exit(EXIT_FAILURE);
 		++i;
 	}
 	printf("map.x = %d, map.y = %d\n", map->x, map->y);
@@ -130,7 +132,7 @@ void	input_arr(t_map **m, char **tmp, int **map_tmp)
 	{
 		one_line = ft_split(tmp[i], ' ');
 		if (!one_line)
-			exit(0);
+			return (ft_free(tmp), exit(EXIT_FAILURE));
 		j = 0;
 		while (j < map->x && one_line[j])
 		{
@@ -141,6 +143,26 @@ void	input_arr(t_map **m, char **tmp, int **map_tmp)
 		++i;
 	}
 	map->map = map_tmp;
-	return (ft_free(tmp));
+	ft_free(tmp);
 }
 
+int	comma_check(char **s)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	printf("yayyyyy\n");
+	while (s[i])
+	{
+		j = 0;
+		while (s[i][j])
+		{
+			if (s[i][j] == ',')
+				return (printf("comma\n"), 1);
+			++j;
+		}
+		++i;
+	}
+	return (0);
+}

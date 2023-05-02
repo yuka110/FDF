@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/01 20:52:45 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/02 18:50:59 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ t_map	*init_null(void);
 char	**read_split(int fd, t_map *map);
 int		**ft_2dcalloc(t_map *map, char **tmp);
 void	input_arr(t_map **m, char **tmp, int **map_tmp);
+int		comma_check(char **s);
 // t_map	*input_arr(t_map *map, char **tmp, int **map_tmp);
 
 //draw.c
@@ -103,6 +104,7 @@ int		z_rotation(t_map *map, int x, int y, int z);
 void	set_background(void *map);
 void	print_map(t_map *map);
 void	ft_free(char **s);
+void	ft_freet_point(t_point **s);
 
 //key_hook.c
 void	zoom(double xdelta, double ydelta, void *m);
