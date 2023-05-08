@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/02 18:50:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/08 14:57:54 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,9 @@ t_map	*init_null(void);
 char	**read_split(int fd, t_map *map);
 int		**ft_2dcalloc(t_map *map, char **tmp);
 void	input_arr(t_map **m, char **tmp, int **map_tmp);
-int		comma_check(char **s);
+// int		comma_check(char **s);
+int	locate_strchr(const char *s, int c);
+void	comma_check(char ***str);
 // t_map	*input_arr(t_map *map, char **tmp, int **map_tmp);
 
 //draw.c

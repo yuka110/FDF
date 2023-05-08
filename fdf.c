@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/02 18:31:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/08 15:14:53 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,24 +70,24 @@ void	set_background(void *map)
 	return ;
 }
 
-void	print_map(t_map *map)
-{
-	int i;
-	int j;
+// void	print_map(t_map *map)
+// {
+// 	int i;
+// 	int j;
 
-	i = 0;
-	while (i < map->y)
-	{
-		j = 0;
-		while (j < map->x)
-		{
-			printf("%d ",map->map[i][j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-}
+// 	i = 0;
+// 	while (i < map->y)
+// 	{
+// 		j = 0;
+// 		while (j < map->x)
+// 		{
+// 			printf("%d ",map->map[i][j]);
+// 			j++;
+// 		}
+// 		printf("\n");
+// 		i++;
+// 	}
+// }
 
 void	ft_free(char **s)
 {
@@ -113,5 +113,4 @@ void	ft_freet_point(t_point **s)
 		++i;
 	}
 	free(s);
-	printf("free int array\n");
 }

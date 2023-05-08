@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/02 18:56:57 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/08 15:10:41 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_map	*open_parse(char **argv)
 	if (!map)
 		exit(EXIT_FAILURE);
 	tmp = read_split(fd, map);
-	if (!tmp || comma_check(tmp) == 1)
+	if (!tmp)
 		exit(EXIT_FAILURE);
 	map_tmp = ft_2dcalloc(map, tmp);
 	if (!map_tmp)
@@ -82,9 +82,7 @@ char	**read_split(int fd, t_map *map)
 		++i;
 		free(line);
 	}
-	printf("test\n");
 	map->y = i;
-
 	arr_2d = ft_split(tmp, '\n');
 	if (!arr_2d)
 		exit(EXIT_FAILURE);
@@ -133,6 +131,7 @@ void	input_arr(t_map **m, char **tmp, int **map_tmp)
 		one_line = ft_split(tmp[i], ' ');
 		if (!one_line)
 			return (ft_free(tmp), exit(EXIT_FAILURE));
+		comma_check(&one_line);
 		j = 0;
 		while (j < map->x && one_line[j])
 		{
@@ -146,23 +145,38 @@ void	input_arr(t_map **m, char **tmp, int **map_tmp)
 	ft_free(tmp);
 }
 
-int	comma_check(char **s)
+int	locate_strchr(const char *s, int c)
 {
 	int	i;
-	int	j;
+	int	strlen;
 
-	i = 0;
-	printf("yayyyyy\n");
-	while (s[i])
+	i = 1;
+	strlen = ft_strlen(s);
+	while (i - 1 < strlen && s)
 	{
-		j = 0;
-		while (s[i][j])
-		{
-			if (s[i][j] == ',')
-				return (printf("comma\n"), 1);
-			++j;
-		}
+		if (s[i - 1] == c)
+			return (i);
 		++i;
 	}
 	return (0);
+}
+
+void	comma_check(char ***str)
+{
+	int		i;
+	char	**s;
+	char	*tmp;
+
+	i = 0;
+	s = *str;
+	while (s[i])
+	{
+		if (locate_strchr(s[i], ','))
+		{
+			tmp = ft_substr(s[i], 0, locate_strchr(s[i], ','));
+			free (s[i]);
+			s[i] = tmp;
+		}
+		++i;
+	}
 }
