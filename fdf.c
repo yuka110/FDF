@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/10 11:43:36 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 16:42:47 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ int	main(int argc, char **argv)
 	set_menu(map->win);
 	draw_line(map);
 
-	// mlx_key_hook(map->win, &key_input, map);
 	mlx_scroll_hook(map->win, &zoom, map);
 	mlx_loop_hook(map->win, &new_key_hook, map);
 	mlx_loop(map->win);
@@ -69,8 +68,6 @@ void	set_background(void *map)
 	if (mlx_image_to_window(win, img, 0, 0) < 0)
 		exit(EXIT_FAILURE);
 	((t_map *)map)->img = img;
-	// if (mlx_image_to_window(win, set_menu(win), 0, 0) < 0)
-	// 	exit(EXIT_FAILURE);
 	return ;
 }
 
@@ -78,8 +75,8 @@ void	set_menu(mlx_t *win)
 {
 	const char	*menu;
 
-	menu = "[Zoom] Scroll, [Rotation] x-axis: 2/3 y-axis: 4/5 \
-			z-axis: 6/7, [Translation] Arrows, [Close] ESC";
+	menu = "[Zoom] Scroll, [Rotation] X: 2/3 Y: 4/5\
+	Z: 6/7, [Translation] Arrows, [Isometric] I/O, [Close] ESC";
 	if (mlx_put_string(win, menu, 10, 10) < 0)
 		exit(EXIT_FAILURE);
 }

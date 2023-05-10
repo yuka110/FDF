@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/10 10:29:13 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 16:56:51 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_map	*init_null(void)
 	map->light = NULL;
 	map->x = 0;
 	map->y = 0;
-	map->iso = 0;
+	map->iso = 1;
 	map->zoom = 5;
 	map->xaxis = 0;
 	map->yaxis = 0;

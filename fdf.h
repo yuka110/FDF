@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/10 11:43:53 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 17:02:04 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 
 typedef struct s_point
 {
-	int	x;
-	int	y;
-	int	z;
+	int		x;
+	int		y;
+	int		z;
+	int		color;
 	double	ratio;
-	int	color;
 }					t_point;
 
 typedef struct s_color
@@ -37,8 +37,6 @@ typedef struct s_color
 	long	*rgba;
 	int		min_z;
 	int		max_z;
-	int		height;
-	double		cod_dif;
 	int		from;
 	int		to;
 }					t_color;
@@ -71,16 +69,23 @@ typedef struct s_map
 
 }					t_map;
 
+//fdf.c
+void	set_background(void *map);
+void	set_menu(mlx_t *win);
+// void	print_map(t_map *map);
+
 //persing_fdf.c
 t_map	*open_parse(char **argv);
 t_map	*init_null(void);
 char	**read_split(int fd, t_map *map);
 int		**ft_2dcalloc(t_map *map, char **tmp);
 void	input_arr(t_map **m, char **tmp, int **map_tmp);
-// int		comma_check(char **s);
-int	locate_strchr(const char *s, int c);
+
+//persing_utils_fdf.c
+int		locate_strchr(const char *s, int c);
 void	comma_check(char ***str);
-// t_map	*input_arr(t_map *map, char **tmp, int **map_tmp);
+void	ft_free(char **s);
+void	ft_freet_point(t_point **s);
 
 //draw.c
 void	draw_line(void *m);
@@ -100,34 +105,22 @@ int		x_rotation(t_map *map, int x, int y, int z);
 int		y_rotation(t_map *map, int x, int y, int z);
 int		z_rotation(t_map *map, int x, int y, int z);
 
-
-//fdf.c
-void	set_background(void *map);
-void	set_menu(mlx_t *win);
-void	print_map(t_map *map);
-void	ft_free(char **s);
-void	ft_freet_point(t_point **s);
-
 //key_hook.c
 void	zoom(double xdelta, double ydelta, void *m);
-// void	key_input(mlx_key_data_t keydata, void *map);
-// void	transition(mlx_key_data_t keydata, void *map);
-// void	rotation(mlx_key_data_t keydata, void *map);
 void	new_key_hook(void *map);
 void	new_transition(void *map);
 void	new_rotation(void *map);
 
-
 //get_color.c
-int	get_color(t_color *c, double percent);
-int	get_color2(t_point fst, t_point sec, double percent);
+int		get_color(t_color *c, double percent);
+int		get_color2(t_point fst, t_point sec, double percent);
 int		linear_grad(double percent, int from_color, int to_color);
 double	percent(int curx, int cury, t_point *fst, t_point *sec);
+
+//color_init.c
 void	color_setup(t_color **c, t_map *map);
 long	*set_color(void);
-
-
-int		max_zvalue(int **s, t_map *map, int height);
-int		min_zvalue(int **s, t_map *map, int height);
+int		max_zvalue(int **s, t_map *map);
+int		min_zvalue(int **s, t_map *map);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/04 19:09:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/10 11:33:03 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 17:05:09 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,9 @@ void	new_transition(void *map)
 	if (mlx_is_key_down(((t_map *)map)->win, MLX_KEY_LEFT))
 		((t_map *)map)->xp -= 5;
 	if (mlx_is_key_down(((t_map *)map)->win, MLX_KEY_UP))
-		((t_map *)map)->yp += 5;
-	if (mlx_is_key_down(((t_map *)map)->win, MLX_KEY_DOWN))
 		((t_map *)map)->yp -= 5;
+	if (mlx_is_key_down(((t_map *)map)->win, MLX_KEY_DOWN))
+		((t_map *)map)->yp += 5;
 	set_background(map);
 	draw_line(map);
 	return ;

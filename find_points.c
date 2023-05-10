@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/09 15:27:59 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 16:54:27 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,11 @@ void	color_per_unit(int i, int j, t_point *cod, t_map *map)
 
 	c = map->light;
 	if (map->map[i][j] == c->min_z)
-		(*cod).ratio = 1.0;
-	else if (map->map[i][j] == c->max_z)
 		(*cod).ratio = 0;
+	else if (map->map[i][j] == c->max_z)
+		(*cod).ratio = 1.0;
 	else
 		(*cod).ratio = (double)(map->map[i][j] - c->min_z)
 			/ (c->max_z - c->min_z);
 	(*cod).color = get_color(c, (*cod).ratio);
 }
-
