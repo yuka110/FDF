@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:17 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/08 14:57:54 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 11:43:53 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ typedef struct s_point
 	int	y;
 	int	z;
 	double	ratio;
-	// int	h_color;
-	// int	v_color;
+	int	color;
 }					t_point;
 
 typedef struct s_color
@@ -104,18 +103,24 @@ int		z_rotation(t_map *map, int x, int y, int z);
 
 //fdf.c
 void	set_background(void *map);
+void	set_menu(mlx_t *win);
 void	print_map(t_map *map);
 void	ft_free(char **s);
 void	ft_freet_point(t_point **s);
 
 //key_hook.c
 void	zoom(double xdelta, double ydelta, void *m);
-void	key_input(mlx_key_data_t keydata, void *map);
-void	transition(mlx_key_data_t keydata, void *map);
-void	rotation(mlx_key_data_t keydata, void *map);
+// void	key_input(mlx_key_data_t keydata, void *map);
+// void	transition(mlx_key_data_t keydata, void *map);
+// void	rotation(mlx_key_data_t keydata, void *map);
+void	new_key_hook(void *map);
+void	new_transition(void *map);
+void	new_rotation(void *map);
+
 
 //get_color.c
 int	get_color(t_color *c, double percent);
+int	get_color2(t_point fst, t_point sec, double percent);
 int		linear_grad(double percent, int from_color, int to_color);
 double	percent(int curx, int cury, t_point *fst, t_point *sec);
 void	color_setup(t_color **c, t_map *map);

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/14 15:15:07 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/02 18:33:44 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 11:46:05 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,9 @@ void	high_line(t_point fst, t_point sec, t_map *map)
 		b.j++;
 		fraction += 2 * b.dx;
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
-			&& (int )map->img->height > b.j)
+			&& (int )map->img->height > b.j && b.j > 30)
 			mlx_put_pixel(map->img, b.i, b.j,
-				get_color(map->light, percent(b.i, b.j, &fst, &sec)));
+				get_color2(fst, sec, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 
@@ -117,9 +117,9 @@ void	low_line(t_point fst, t_point sec, t_map *map)
 		b.i++;
 		fraction += 2 * b.dy;
 		if (b.i > 0 && (int )map->img->width > b.i && b.j > 0
-			&& (int )map->img->height > b.j)
+			&& (int )map->img->height > b.j && b.j > 30)
 			mlx_put_pixel(map->img, b.i, b.j,
-				get_color(map->light, percent(b.i, b.j, &fst, &sec)));
+				get_color2(fst, sec, percent(b.i, b.j, &fst, &sec)));
 	}
 }
 

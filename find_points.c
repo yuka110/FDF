@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/04/03 14:18:47 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/02 17:18:26 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/09 15:27:59 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,6 @@ t_point	calculate_cod(int x, int y, int z, t_map *map)
 	return (p);
 }
 
-		// map->xaxis = 0;
-
 void	color_per_unit(int i, int j, t_point *cod, t_map *map)
 {
 	t_color	*c;
@@ -96,5 +94,6 @@ void	color_per_unit(int i, int j, t_point *cod, t_map *map)
 	else
 		(*cod).ratio = (double)(map->map[i][j] - c->min_z)
 			/ (c->max_z - c->min_z);
+	(*cod).color = get_color(c, (*cod).ratio);
 }
 

@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/25 17:20:22 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/08 15:14:53 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 11:43:36 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	main(int argc, char **argv)
 	if (!map->img)
 		exit(EXIT_FAILURE);
 	set_background(map);
+	set_menu(map->win);
 	draw_line(map);
 
+	// mlx_key_hook(map->win, &key_input, map);
 	mlx_scroll_hook(map->win, &zoom, map);
-	mlx_key_hook(map->win, &key_input, map);
+	mlx_loop_hook(map->win, &new_key_hook, map);
 	mlx_loop(map->win);
 	mlx_terminate(map->win);
 	exit(EXIT_SUCCESS);
@@ -51,7 +53,7 @@ void	set_background(void *map)
 	uint32_t	i;
 	uint32_t	j;
 
-	i = 0;
+	i = 30;
 	win = ((t_map *)map)->win;
 	img = ((t_map *)map)->img;
 	while (i < img->height)
@@ -67,8 +69,21 @@ void	set_background(void *map)
 	if (mlx_image_to_window(win, img, 0, 0) < 0)
 		exit(EXIT_FAILURE);
 	((t_map *)map)->img = img;
+	// if (mlx_image_to_window(win, set_menu(win), 0, 0) < 0)
+	// 	exit(EXIT_FAILURE);
 	return ;
 }
+
+void	set_menu(mlx_t *win)
+{
+	const char	*menu;
+
+	menu = "[Zoom] Scroll, [Rotation] x-axis: 2/3 y-axis: 4/5 \
+			z-axis: 6/7, [Translation] Arrows, [Close] ESC";
+	if (mlx_put_string(win, menu, 10, 10) < 0)
+		exit(EXIT_FAILURE);
+}
+
 
 // void	print_map(t_map *map)
 // {
@@ -89,28 +104,3 @@ void	set_background(void *map)
 // 	}
 // }
 
-void	ft_free(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		++i;
-	}
-	free(s);
-}
-
-void	ft_freet_point(t_point **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-	{
-		free(s[i]);
-		++i;
-	}
-	free(s);
-}

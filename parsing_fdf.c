@@ -6,7 +6,7 @@
 /*   By: yitoh <yitoh@student.codam.nl>               +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/06 15:32:01 by yitoh         #+#    #+#                 */
-/*   Updated: 2023/05/08 15:10:41 by yitoh         ########   odam.nl         */
+/*   Updated: 2023/05/10 10:29:13 by yitoh         ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ t_map	*open_parse(char **argv)
 		exit(EXIT_FAILURE);
 	input_arr(&map, tmp, map_tmp);
 	color_setup(&(map->light), map);
+	// printf("max:%d, min:%d\n", map->light->max_z, map->light->min_z);
 	close(fd);
 	return (map);
 }
@@ -113,7 +114,7 @@ int	**ft_2dcalloc(t_map *map, char **tmp)
 			exit(EXIT_FAILURE);
 		++i;
 	}
-	printf("map.x = %d, map.y = %d\n", map->x, map->y);
+	// printf("map.x = %d, map.y = %d\n", map->x, map->y);
 	return (arr);
 }
 
@@ -143,40 +144,4 @@ void	input_arr(t_map **m, char **tmp, int **map_tmp)
 	}
 	map->map = map_tmp;
 	ft_free(tmp);
-}
-
-int	locate_strchr(const char *s, int c)
-{
-	int	i;
-	int	strlen;
-
-	i = 1;
-	strlen = ft_strlen(s);
-	while (i - 1 < strlen && s)
-	{
-		if (s[i - 1] == c)
-			return (i);
-		++i;
-	}
-	return (0);
-}
-
-void	comma_check(char ***str)
-{
-	int		i;
-	char	**s;
-	char	*tmp;
-
-	i = 0;
-	s = *str;
-	while (s[i])
-	{
-		if (locate_strchr(s[i], ','))
-		{
-			tmp = ft_substr(s[i], 0, locate_strchr(s[i], ','));
-			free (s[i]);
-			s[i] = tmp;
-		}
-		++i;
-	}
 }

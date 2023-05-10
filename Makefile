@@ -6,13 +6,13 @@
 #    By: yitoh <yitoh@student.codam.nl>               +#+                      #
 #                                                    +#+                       #
 #    Created: 2023/01/19 10:52:21 by yitoh         #+#    #+#                  #
-#    Updated: 2023/05/08 15:12:36 by yitoh         ########   odam.nl          #
+#    Updated: 2023/05/10 11:26:00 by yitoh         ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 SRC = fdf.c parsing_fdf.c draw.c find_points.c hook_fdf.c get_color.c color_init.c\
-		rotation_equation.c
+		rotation_equation.c parsing_utils_fdf.c
 # OBJ = $(SRC:.c=.o)
 OBJ = $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
 OBJ_DIR = ./obj/
